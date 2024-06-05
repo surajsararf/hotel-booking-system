@@ -2,8 +2,11 @@ package com.sararf.hotel.booking.module.login.filter;
 
 import com.sararf.hotel.booking.module.login.service.UserService;
 import com.sararf.hotel.booking.utils.JwtTokenUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.id.GUIDGenerator;
+import org.slf4j.MDC;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		log.info("authenticating user");
+		MDC.put("X-REQUEST-ID", UUID.randomUUID() + "");
 		final String authorizationHeader = request.getHeader("Authorization");
 
 		String username = null;
@@ -37,7 +42,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			jwt = authorizationHeader.substring(7);
-			username = jwtTokenUtil.extractUsername(jwt);
+			try {
+				username = jwtTokenUtil.extractUsername(jwt);
+			} catch (ExpiredJwtException e) {
+				log.error("Token expired");
+			}
 		}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

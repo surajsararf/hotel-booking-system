@@ -127,6 +127,9 @@ public class BookingUtils {
 								.name(roomEntity.getTitle())
 								.price(roomEntity.getPricePerNight())
 								.capacity(roomEntity.getCapacity())
+								.numberOfRooms(roomEntity.getTotalRooms())
+								.bedType(roomEntity.getBedType())
+								.isAvailable(roomEntity.getTotalRooms() > 0)
 								.build())
 						.collect(Collectors.toList()))
 

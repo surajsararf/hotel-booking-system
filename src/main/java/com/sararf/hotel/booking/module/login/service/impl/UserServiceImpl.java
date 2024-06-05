@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -49,10 +50,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String generateToken(String email) {
+		log.info("Generating token for user: {}", email);
 		return jwtTokenUtil.generateToken(email);
 	}
 
+	@Override
+	public UserEntity findByEmail(String email) {
+		log.info("Finding user by email: {}", email);
+		return userRepository.findByEmail(email).orElse(null);
+	}
+
 	private Authentication authenticate(String email, String password) {
+		log.info("Authenticating user: {}", email);
 		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 	}
 }

@@ -15,14 +15,16 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
 	Optional<List<RoomEntity>> findByHotelEntityIdAndIdIn(Long hotelId, List<Long> roomRequestList);
 
 	@Query(
-			value = "select new RoomEntity(r.id, r.title, r.type, r.totalRooms, r.pricePerNight, r.bedType," +
-					"  r.capacity - IFNULL((select sum(brm.numberOfRooms) from " +
+			value = "select new RoomEntity(r.id, r.title, r.type,r.capacity, r.pricePerNight, r.bedType," +
+					" r.totalRooms  - IFNULL((select sum(brm.numberOfRooms) from " +
 												"BookingRoomMapping brm " +
 												"left join BookingEntity b on b.id = brm.bookingEntity.id " +
 												"where " +
 												"brm.roomEntity.id=r.id and " +
-												"date(b.bookingCheckInDate)>=date(:checkInDate) " +
-												"and date(b.bookingCheckOutDate)<=date(:checkOutDate) " +
+												"((date(b.bookingCheckInDate)<=date(:checkInDate) " +
+												"and date(b.bookingCheckOutDate)>=date(:checkInDate) ) OR" +
+												"(date(b.bookingCheckInDate)<=date(:checkOutDate) " +
+												"and date(b.bookingCheckOutDate)>=date(:checkOutDate) ))" +
 												"and b.hotelEntity.id=:hotelId " +
 												"),0)) " +
 					"from RoomEntity r " +

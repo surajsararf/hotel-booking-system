@@ -15,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/app/v1/user")
@@ -26,6 +27,11 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<ResponseWrapperDTO<UserRegisterResponse>> register(@RequestBody @Valid RegisterRequestDTO registerRequest) {
 		log.info("Registering user: {}", registerRequest);
+		if (!Objects.isNull(userService.findByEmail(registerRequest.getEmail()))) {
+			log.error("User already exists with email id {}", registerRequest.getEmail());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(ResponseWrapperDTO.badRequest("User already exists", null));
+		}
 		UserEntity registeredUser = userService.register(UserUtils.toUserEntity(registerRequest));
 		String token = userService.generateToken(registeredUser.getEmail());
 		return ResponseEntity.ok(ResponseWrapperDTO.ok(UserUtils.toUserRegisterResponse(registeredUser, token), "Registration successful"));
@@ -40,13 +46,7 @@ public class UserController {
 		} catch (AuthenticationException e) {
 			log.error("Invalid password", e);
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.body(ResponseWrapperDTO.builder()
-							.debugMessage(e.getMessage())
-							.success(false)
-							.data(null)
-							.message("Invalid password")
-							.statusCode(HttpStatus.UNAUTHORIZED.value())
-							.build());
+					.body(ResponseWrapperDTO.failedLogin(e.getMessage()));
 		}
 	}
 }

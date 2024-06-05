@@ -49,10 +49,7 @@ public class CreateBookingServiceImpl implements CreateBookingService {
 								.collect(Collectors.toList()));
 		double amount = BookingUtils.calculateBookingAmount(roomEntityList, bookingRequestDTO);
 		log.info("total amount calculated {}", amount);
-		if (!validation()) {
-			log.error("Validation failed for data {}", bookingRequestDTO);
-			throw new ValidationFailedException("Validation failed", HttpStatus.BAD_REQUEST);
-		}
+		validation(bookingRequestDTO);
 
 		PaymentEntity paymentEntity = paymentService.createPayment(amount);
 		log.info("payment created {}, order id {}", paymentEntity.getId(), paymentEntity.getOrderId());
@@ -68,7 +65,19 @@ public class CreateBookingServiceImpl implements CreateBookingService {
 		return BookingUtils.toBookingResponseDTO(bookingEntity, bookingRoomMapping);
 	}
 
-	private boolean validation() {
-		return true;
+	private void validation(BookingRequestDTO bookingRequestDTO) {
+		log.info("Validating booking request {}", bookingRequestDTO);
+		List<RoomEntity> roomList = roomService.getHotelAvailableRoomDetails(bookingRequestDTO.getHotelId(),
+				bookingRequestDTO.getCheckInDate(), bookingRequestDTO.getCheckOutDate());
+
+		bookingRequestDTO.getRoomRequestList()
+				.forEach(s -> {
+					if (roomList.stream().noneMatch(roomEntity ->
+							roomEntity.getId().equals(s.getRoomId())
+									&& roomEntity.getTotalRooms() >= s.getNumberOfRooms())) {
+						log.error("room id {} not available", s.getRoomId());
+						throw new ValidationFailedException("Room not available", HttpStatus.BAD_REQUEST);
+					}
+				});
 	}
 }

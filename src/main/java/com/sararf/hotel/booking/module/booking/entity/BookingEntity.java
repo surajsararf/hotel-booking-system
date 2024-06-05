@@ -2,7 +2,6 @@ package com.sararf.hotel.booking.module.booking.entity;
 
 import com.sararf.hotel.booking.entity.BaseEntity;
 import com.sararf.hotel.booking.module.hotel.entity.HotelEntity;
-import com.sararf.hotel.booking.module.hotel.entity.RoomEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "bookings")

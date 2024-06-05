@@ -58,7 +58,7 @@ public class HotelServiceImpl implements HotelService, RoomService, ImageService
 
 
 	@Override
-	public List<RoomEntity> getHotelDetails(Long hotelId, Date checkInDate, Date checkOutDate) {
+	public List<RoomEntity> getHotelAvailableRoomDetails(Long hotelId, Date checkInDate, Date checkOutDate) {
 		log.info("Getting hotel details by hotel id {}", hotelId);
 		return roomRepository.findByHotelEntityId(hotelId, checkInDate, checkOutDate).orElse(null);
 	}

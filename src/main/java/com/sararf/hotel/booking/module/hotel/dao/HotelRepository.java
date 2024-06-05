@@ -24,8 +24,11 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long> {
 			"    SELECT brm.roomEntity.id " +
 			"    FROM BookingRoomMapping brm " +
 			"    JOIN brm.bookingEntity b " +
-			"    WHERE b.bookingCheckInDate < :checkOutDate " +
-			"    AND b.bookingCheckOutDate > :checkInDate " +
+			"    WHERE " +
+			"((date(b.bookingCheckInDate)<=date(:checkInDate) " +
+			"and date(b.bookingCheckOutDate)>=date(:checkInDate) ) OR" +
+			"(date(b.bookingCheckInDate)<=date(:checkOutDate) " +
+			"and date(b.bookingCheckOutDate)>=date(:checkOutDate) ))" +
 			"    GROUP BY brm.roomEntity.id " +
 			"    HAVING SUM(brm.numberOfRooms) + :roomRequired > r.totalRooms " +
 			") " +

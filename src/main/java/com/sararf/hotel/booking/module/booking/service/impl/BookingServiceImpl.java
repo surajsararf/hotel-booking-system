@@ -100,7 +100,7 @@ public class BookingServiceImpl implements BookingService, PaymentService {
 		BookingEntity bookingEntity = bookingRepository.findForCancelEntity(bookingId, status);
 		if (Objects.isNull(bookingEntity)) {
 			throw new ValidationFailedException("Booking can not be Cancelled cause of already cancelled or user check in",
-					HttpStatus.NOT_FOUND);
+					HttpStatus.BAD_REQUEST);
 		}
 		bookingEntity.setBookingStatus(status);
 		return bookingRepository.saveAndFlush(bookingEntity);

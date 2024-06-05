@@ -31,7 +31,7 @@ public class RoomEntity extends BaseEntity {
 	@Column(name = "bed_type")
 	private String bedType;
 
-	public RoomEntity(Long id, String title, String type, int totalRooms, double pricePerNight, String bedType, int capacity) {
+	public RoomEntity(Long id, String title, String type, int capacity, double pricePerNight, String bedType, int totalRooms) {
 		setId(id);
 		this.title = title;
 		this.type = type;

@@ -2,6 +2,7 @@ package com.sararf.hotel.booking.common;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -31,6 +32,26 @@ public class ResponseWrapperDTO<T> {
 				.message(message)
 				.errorList(errorList)
 				.statusCode(400)
+				.build();
+	}
+
+	public static ResponseWrapperDTO<Object> authFailed() {
+		return ResponseWrapperDTO.builder()
+				.success(false)
+				.data(null)
+				.message("Login expired. Please login again.")
+				.debugMessage("Invalid token. Please login again.")
+				.statusCode(HttpStatus.UNAUTHORIZED.value())
+				.build();
+	}
+
+	public static ResponseWrapperDTO<?> failedLogin(String debugMessage) {
+		return ResponseWrapperDTO.builder()
+				.debugMessage(debugMessage)
+				.success(false)
+				.data(null)
+				.message("Invalid password")
+				.statusCode(HttpStatus.UNAUTHORIZED.value())
 				.build();
 	}
 }

@@ -1,5 +1,6 @@
 package com.sararf.hotel.booking.module.login.config;
 
+import com.sararf.hotel.booking.common.RestAuthenticationEntryPoint;
 import com.sararf.hotel.booking.module.login.filter.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SecurityConfiguration {
 	private final AuthenticationProvider authenticationProvider;
 	private final JwtRequestFilter jwtRequestFilter;
+	private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,6 +38,9 @@ public class SecurityConfiguration {
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
+				.exceptionHandling()
+				.authenticationEntryPoint(restAuthenticationEntryPoint)
+				.and()
 				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -46,14 +51,12 @@ public class SecurityConfiguration {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.setAllowedOrigins(List.of("http://localhost:8005"));
-		configuration.setAllowedMethods(List.of("GET", "POST"));
-		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+		configuration.setAllowedOrigins(List.of("*"));
+		configuration.setAllowedMethods(List.of("*"));
+		configuration.setAllowedHeaders(List.of("*"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
 		source.registerCorsConfiguration("/**", configuration);
-
 		return source;
 	}
 }
