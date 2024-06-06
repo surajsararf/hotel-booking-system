@@ -1,12 +1,14 @@
 package com.sararf.hotel.booking.module.login.controller;
 
-import com.sararf.hotel.booking.common.ResponseWrapperDTO;
+import com.sararf.hotel.booking.common.dto.ResponseWrapperDTO;
 import com.sararf.hotel.booking.entity.UserEntity;
 import com.sararf.hotel.booking.module.login.dto.LoginRequestDTO;
 import com.sararf.hotel.booking.module.login.dto.RegisterRequestDTO;
 import com.sararf.hotel.booking.module.login.dto.UserRegisterResponse;
 import com.sararf.hotel.booking.module.login.service.UserService;
 import com.sararf.hotel.booking.utils.UserUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,12 @@ import java.util.Objects;
 @RequestMapping("/api/app/v1/user")
 @RequiredArgsConstructor
 @Slf4j
+@Api(tags = "Login and registration APIs", value = "Login and registration APIs")
 public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/register")
+	@ApiOperation(value = "Register a new user", notes = "Register a new user")
 	public ResponseEntity<ResponseWrapperDTO<UserRegisterResponse>> register(@RequestBody @Valid RegisterRequestDTO registerRequest) {
 		log.info("Registering user: {}", registerRequest);
 		if (!Objects.isNull(userService.findByEmail(registerRequest.getEmail()))) {
@@ -38,6 +42,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
+	@ApiOperation(value = "Login a user", notes = "Login a user")
 	public ResponseEntity<ResponseWrapperDTO<?>> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
 		log.info("Logging in user: {}", loginRequest);
 		try {

@@ -1,8 +1,8 @@
-package com.sararf.hotel.booking.common;
+package com.sararf.hotel.booking.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sararf.hotel.booking.common.dto.ResponseWrapperDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

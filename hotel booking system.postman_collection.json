@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "553b3602-c60b-40ec-a28e-a58656dfac2a",
+		"name": "hotel booking system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "6701564",
+		"_collection_link": "https://crimson-shuttle-6452.postman.co/workspace/8ffc8ec8-b84b-4f47-8e74-e5da2309f58c/collection/6701564-553b3602-c60b-40ec-a28e-a58656dfac2a?action=share&source=collection_link&creator=6701564"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "registeration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Suraj\",\n    \"email\": \"surajsararf@gmail.com\",\n    \"password\": \"suraj.1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8089/api/app/v1/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8089/api/app/v1/user/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hotelsearch",
+			"item": [
+				{
+					"name": "search hotel list by location",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "hotel details",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "booking",
+			"item": [
+				{
+					"name": "create booking",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8089/api/app/v1/booking/list?Authorization=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXJhanNhcmFyZkBnbWFpbC5jb20iLCJleHAiOjE3MTc1OTUxODQsImlhdCI6MTcxNzU5MTU4NH0.eGtpWEO0e9TypakvRZEnnLLXdKghQeqh5409ZmW5vQk",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"api",
+								"app",
+								"v1",
+								"booking",
+								"list"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXJhanNhcmFyZkBnbWFpbC5jb20iLCJleHAiOjE3MTc1OTUxODQsImlhdCI6MTcxNzU5MTU4NH0.eGtpWEO0e9TypakvRZEnnLLXdKghQeqh5409ZmW5vQk"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel booking",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,11 +1,9 @@
-package com.sararf.hotel.booking.module.login.filter;
+package com.sararf.hotel.booking.filter;
 
-import com.sararf.hotel.booking.module.login.service.UserService;
 import com.sararf.hotel.booking.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.id.GUIDGenerator;
 import org.slf4j.MDC;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

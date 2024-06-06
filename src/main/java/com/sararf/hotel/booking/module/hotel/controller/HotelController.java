@@ -1,10 +1,12 @@
 package com.sararf.hotel.booking.module.hotel.controller;
 
-import com.sararf.hotel.booking.common.ResponseWrapperDTO;
+import com.sararf.hotel.booking.common.dto.ResponseWrapperDTO;
 import com.sararf.hotel.booking.module.hotel.dto.HotelDTO;
 import com.sararf.hotel.booking.module.hotel.dto.HotelDetailsDTO;
 import com.sararf.hotel.booking.module.hotel.service.HotelDetailsService;
 import io.jsonwebtoken.lang.Collections;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -24,10 +25,12 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/app/v1/hotel")
+@Api(tags = "Hotel APIs", value = "Hotel APIs")
 public class HotelController {
 	private final HotelDetailsService hotelDetailsService;
 
 	@GetMapping("/search")
+	@ApiOperation(value = "Search hotel", notes = "Search hotel")
 	public ResponseEntity<ResponseWrapperDTO<List<HotelDTO>>> search(@RequestParam(required = false) String location,
 																	 @RequestParam(required = false) double lat,
 																	 @RequestParam(required = false) double lng,
@@ -49,6 +52,7 @@ public class HotelController {
 	}
 
 	@GetMapping("/details")
+	@ApiOperation(value = "Get hotel details", notes = "Get hotel details")
 	public ResponseEntity<ResponseWrapperDTO<HotelDetailsDTO>> hotelDetails(@RequestParam Long hotelId,
 																			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
 																			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate) {

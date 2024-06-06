@@ -1,7 +1,6 @@
-package com.sararf.hotel.booking.module.login.config;
+package com.sararf.hotel.booking.config;
 
-import com.sararf.hotel.booking.common.RestAuthenticationEntryPoint;
-import com.sararf.hotel.booking.module.login.filter.JwtRequestFilter;
+import com.sararf.hotel.booking.filter.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +29,14 @@ public class SecurityConfiguration {
 		http.csrf()
 				.disable()
 				.authorizeHttpRequests()
-				.antMatchers("/api/app/v1/user/**","/api/app/v1/hotel/**")
+				.antMatchers("/api/app/v1/user/**",
+						"/api/app/v1/hotel/**",
+						"/swagger-ui.html",
+						"/swagger-ui/**",
+						"/v2/**",
+						"/api/swagger-ui/**",
+						"/swagger-resources/**",
+						"/webjars/**")
 				.permitAll()
 				.anyRequest()
 				.authenticated()

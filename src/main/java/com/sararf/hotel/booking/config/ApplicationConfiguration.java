@@ -1,4 +1,4 @@
-package com.sararf.hotel.booking.module.login.config;
+package com.sararf.hotel.booking.config;
 
 import com.sararf.hotel.booking.module.login.dao.UserRepository;
 import org.springframework.context.annotation.Bean;

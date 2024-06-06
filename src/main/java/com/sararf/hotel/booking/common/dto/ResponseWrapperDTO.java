@@ -1,4 +1,4 @@
-package com.sararf.hotel.booking.common;
+package com.sararf.hotel.booking.common.dto;
 
 import lombok.Builder;
 import lombok.Data;
